@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classifier</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEEEEE; /* Light background */
+            color: #222831; /* Dark text for contrast */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures footer stays at bottom */
+        }
+
+        header {
+            background-color: #00ADB5; /* Teal header */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            flex: 1; /* Allows the main content to expand */
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .upload-section {
+            background-color: white; /* White background for upload section */
+            border: 2px solid #00ADB5;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .upload-section h2 {
+            margin-bottom: 15px;
+            color: #00ADB5;
+        }
+
+        .upload-section input[type="file"] {
+            margin-bottom: 15px;
+            border: 2px solid #00ADB5;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .upload-section button {
+            background-color: #00ADB5; /* Teal button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-section button:hover {
+            background-color: #008C8C; /* Darker teal on hover */
+        }
+
+        .result-section {
+            margin-top: 20px;
+            text-align: center;
+            background-color: #FAE3D9; /* Light background for results */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .result-section h2 {
+            margin-bottom: 15px;
+            color: #222831; /* Dark text for results */
+        }
+
+        .result-section img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #00ADB5; /* Highlight image with teal border */
+            border-radius: 10px;
+        }
+
+        footer {
+            background-color: #222831; /* Dark footer */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Happy or Sad Image Classifier</h1>
+    </header>
+    <main>
+        <section class="upload-section">
+            <h2>Upload an Image</h2>
+            {% if error %}
+            <div style="color: red; margin-bottom: 15px; padding: 10px; background-color: #ffe6e6; border-radius: 5px;">
+                {{ error }}
+            </div>
+            {% endif %}
+            <form action="/predict" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*" required>
+                <button type="submit">Classify Image</button>
+            </form>
+        </section>
+        <section class="result-section">
+            {% if result %}
+                <h2>Result: {{ result }}</h2>
+                <img src="{{ url_for('static', filename=image) }}" alt="Uploaded Image">
+            {% endif %}
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Image Classifier</p>
+    </footer>
+</body>
+</html>
